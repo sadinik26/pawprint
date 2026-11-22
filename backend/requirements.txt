@@ -1,0 +1,10 @@
+@"
+fastapi
+uvicorn
+pillow
+python-multipart
+torch
+transformers
+faiss-cpu
+ultralytics
+"@ | Set-Content requirements.txt

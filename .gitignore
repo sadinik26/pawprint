@@ -1,0 +1,28 @@
+
+# Python virtual environments
+.venv/
+venv/
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Model weights
+*.pt
+*.pth
+*.onnx
+
+# Hugging Face model cache
+models/
+
+# Dataset images
+data/after_4_bis/
+
+# Generated embeddings (can be regenerated)
+data/dog_embeddings.npy
+
+# Environment variables
+.env
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
