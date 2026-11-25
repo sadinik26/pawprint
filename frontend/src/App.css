@@ -1306,3 +1306,636 @@
     grid-template-columns: 1fr;
   }
 }
+
+.district-map-page {
+  min-height: 100vh;
+  background: #fcf8f1;
+  color: #304a35;
+  font-family: inherit;
+}
+
+.district-map-navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 24px clamp(22px, 7vw, 108px);
+  border-bottom: 1px solid rgba(48, 74, 53, 0.09);
+}
+
+.district-map-logo {
+  color: #304a35;
+  text-decoration: none;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 30px;
+  font-weight: 700;
+}
+
+.district-map-logo span {
+  color: #86a486;
+}
+
+.district-map-nav-links {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+.district-map-nav-links a {
+  color: #64736a;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.district-map-nav-links a:hover,
+.district-map-nav-links a.active {
+  color: #304a35;
+}
+
+.district-map-container {
+  width: min(1320px, 100% - 44px);
+  margin: 0 auto;
+  padding: 62px 0 78px;
+}
+
+.district-map-heading {
+  max-width: 760px;
+  margin: 0 auto 38px;
+  text-align: center;
+}
+
+.district-map-eyebrow,
+.district-map-detail-eyebrow {
+  color: #86a486;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 2.2px;
+}
+
+.district-map-heading h1 {
+  margin: 14px 0 18px;
+  color: #304a35;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(38px, 5vw, 64px);
+  line-height: 1.08;
+  letter-spacing: -1.8px;
+}
+
+.district-map-heading h1 em {
+  color: #86a486;
+  font-weight: 500;
+}
+
+.district-map-heading p {
+  max-width: 650px;
+  margin: 0 auto;
+  color: #758078;
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+.district-map-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin: 0 0 24px;
+}
+
+.district-map-stats article {
+  padding: 22px 26px;
+  border: 1px solid #e9e3d9;
+  border-radius: 20px;
+  background: #fffdf9;
+}
+
+.district-map-stats span {
+  display: block;
+  color: #788078;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.district-map-stats strong {
+  display: block;
+  margin-top: 7px;
+  color: #304a35;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 34px;
+}
+
+.district-map-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(270px, 0.75fr);
+  align-items: stretch;
+  gap: 24px;
+}
+
+.district-map-visual-card,
+.district-map-detail-card {
+  border: 1px solid #e9e3d9;
+  border-radius: 24px;
+  background: #fffdf9;
+  box-shadow: 0 12px 36px rgba(48, 74, 53, 0.045);
+}
+
+.district-map-visual-card {
+  min-width: 0;
+  padding: 22px 18px 18px;
+}
+
+.district-map-legend {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  color: #738077;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.district-map-legend span,
+.district-map-count-row span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.district-map-legend i,
+.district-map-count-row i {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.lost-legend {
+  background: #d990a6;
+}
+
+.found-legend {
+  background: #86a486;
+}
+
+.district-map-svg {
+  display: block;
+  width: 100%;
+  max-height: 760px;
+  margin: 10px auto 0;
+  overflow: visible;
+}
+
+.district-map-shape {
+  fill: #dce7d8;
+  stroke: #fffdf9;
+  stroke-width: 2.2;
+  stroke-linejoin: round;
+  cursor: pointer;
+  transition: fill 160ms ease, stroke 160ms ease;
+}
+
+.district-map-shape:hover,
+.district-map-shape:focus-visible {
+  fill: #a9c5a7;
+  stroke: #6e9270;
+  stroke-width: 3.5;
+  outline: none;
+}
+
+.district-map-shape.selected {
+  fill: #86a486;
+  stroke: #304a35;
+  stroke-width: 4;
+}
+
+.district-map-shape.no-reports {
+  fill: #eee9df;
+}
+
+.district-map-shape.no-reports:hover,
+.district-map-shape.no-reports:focus-visible {
+  fill: #dce7d8;
+}
+
+.district-map-shape.no-reports.selected {
+  fill: #c4d7bd;
+}
+
+.district-map-label {
+  fill: #415644;
+  font-size: 16px;
+  font-weight: 700;
+  text-anchor: middle;
+  dominant-baseline: central;
+  paint-order: stroke;
+  stroke: #fffdf9;
+  stroke-width: 3px;
+  stroke-linejoin: round;
+}
+
+.district-map-source {
+  margin: 8px 8px 0;
+  color: #9a9b92;
+  font-size: 10px;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.district-map-detail-card {
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+}
+
+.district-map-detail-card h2 {
+  margin: 12px 0 20px;
+  color: #304a35;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 32px;
+}
+
+.district-map-detail-total {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 0 0 20px;
+  border-bottom: 1px solid #eee8df;
+}
+
+.district-map-detail-total strong {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 52px;
+}
+
+.district-map-detail-total span {
+  color: #7b847c;
+  font-size: 13px;
+}
+
+.district-map-count-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 0;
+  border-bottom: 1px solid #eee8df;
+  color: #6f7b71;
+  font-size: 14px;
+}
+
+.district-map-count-row strong {
+  color: #304a35;
+  font-size: 18px;
+}
+
+.district-map-empty-note {
+  color: #7b847c;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.district-map-select-prompt {
+  margin: auto 0;
+  text-align: center;
+}
+
+.district-map-paw {
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+  margin: 0 auto 18px;
+  border-radius: 50%;
+  background: #f8e4eb;
+  color: #d990a6;
+  font-size: 30px;
+}
+
+.district-map-select-prompt h2 {
+  margin: 0 0 12px;
+  font-size: 27px;
+}
+
+.district-map-select-prompt p {
+  color: #7b847c;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.district-map-report-link {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-top: auto;
+  padding: 16px 18px;
+  border-radius: 999px;
+  background: #86a486;
+  color: white;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.district-map-report-link:hover {
+  background: #6f9271;
+}
+
+.district-map-message,
+.district-map-error {
+  margin: 24px auto;
+  padding: 20px;
+  border-radius: 16px;
+  text-align: center;
+}
+
+.district-map-message {
+  background: #fffdf9;
+  color: #738077;
+}
+
+.district-map-error {
+  max-width: 760px;
+  background: #fff0f1;
+  color: #9b4052;
+}
+
+.district-map-footer {
+  padding: 24px;
+  border-top: 1px solid rgba(48, 74, 53, 0.09);
+  color: #879087;
+  text-align: center;
+  font-size: 12px;
+}
+
+@media (max-width: 900px) {
+  .district-map-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .district-map-detail-card {
+    min-height: 310px;
+  }
+
+  .district-map-svg {
+    max-height: 650px;
+  }
+}
+
+@media (max-width: 620px) {
+  .district-map-navbar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .district-map-nav-links {
+    gap: 14px;
+  }
+
+  .district-map-container {
+    width: min(100% - 28px, 1320px);
+    padding-top: 38px;
+  }
+
+  .district-map-stats {
+    gap: 9px;
+  }
+
+  .district-map-stats article {
+    padding: 15px 12px;
+    border-radius: 14px;
+  }
+
+  .district-map-stats span {
+    font-size: 11px;
+  }
+
+  .district-map-stats strong {
+    font-size: 26px;
+  }
+
+  .district-map-visual-card {
+    padding: 16px 8px;
+  }
+
+  .district-map-label {
+    font-size: 18px;
+  }
+
+  .district-map-detail-card {
+    padding: 24px;
+  }
+}
+.district-map-dogs-section {
+  width: 100%;
+  margin-top: 24px;
+  text-align: left;
+}
+
+.district-map-dogs-section h3 {
+  margin: 0 0 14px;
+  font-size: 1.1rem;
+  color: #244b3d;
+}
+
+.district-map-dogs-message {
+  color: #777;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.district-map-dogs-error {
+  color: #b74747;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.district-map-dog-card {
+  display: flex;
+  gap: 14px;
+  padding: 12px;
+  margin-bottom: 14px;
+  background: #fffdf9;
+  border: 1px solid #eee7dc;
+  border-radius: 14px;
+  text-align: left;
+}
+
+.district-map-dog-card img {
+  width: 105px;
+  height: 105px;
+  flex-shrink: 0;
+  object-fit: cover;
+  border-radius: 10px;
+  background: #f1ece3;
+}
+
+.district-map-dog-info {
+  min-width: 0;
+}
+
+.district-map-dog-info h4 {
+  margin: 0 0 6px;
+  color: #244b3d;
+  font-size: 1rem;
+  overflow-wrap: anywhere;
+}
+
+.district-map-dog-status {
+  display: inline-block;
+  margin-bottom: 8px;
+  padding: 4px 9px;
+  color: #a64c5c;
+  background: #f9e8eb;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.district-map-dog-info p {
+  margin: 4px 0;
+  color: #777;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.district-map-dog-info p strong {
+  color: #4d554f;
+}
+
+@media (max-width: 600px) {
+  .district-map-dog-card {
+    gap: 10px;
+    padding: 10px;
+  }
+
+  .district-map-dog-card img {
+    width: 82px;
+    height: 82px;
+  }
+}
+
+/* ========================================
+   PAWPRINT - REFINED SEARCH RESULT CARDS
+   Image sizing and typography adjustments
+======================================== */
+
+.search-results-section .search-result-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+  border-radius: 20px;
+}
+
+.search-results-section .search-result-card > img,
+.search-results-section .search-result-card .search-result-image,
+.search-results-section .search-result-card .search-result-image-placeholder {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 220px;
+  min-height: 220px;
+  max-height: 220px;
+  flex: 0 0 220px;
+  margin: 0;
+  object-fit: cover;
+  object-position: center 35%;
+  border-radius: 0;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.search-results-section .search-result-card > img {
+  background: #F6E2E9;
+}
+
+.search-results-section .search-result-content {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 24px 26px 26px;
+  background: #FFFFFF;
+}
+
+.search-results-section .search-result-rank {
+  display: block;
+  margin: 0 0 12px;
+  font-size: 11px;
+  line-height: 1.5;
+  letter-spacing: 1.8px;
+  font-weight: 800;
+  color: #84A282;
+  overflow-wrap: anywhere;
+}
+
+.search-results-section .search-result-content h3 {
+  margin: 0 0 18px;
+  font-family: 'Playfair Display', serif;
+  font-size: 27px;
+  line-height: 1.25;
+  font-weight: 600;
+  color: #315643;
+  overflow-wrap: anywhere;
+}
+
+.search-results-section .search-similarity {
+  align-items: baseline;
+  gap: 12px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.search-results-section .search-similarity strong {
+  flex-shrink: 0;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.search-results-section .search-similarity-bar {
+  height: 6px;
+  margin-top: 11px;
+}
+
+.search-results-section .search-result-details {
+  margin-top: 20px;
+  padding-top: 14px;
+}
+
+.search-results-section .search-result-details p {
+  margin: 9px 0;
+  font-size: 14px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.search-results-section .search-result-details strong {
+  color: #315643;
+  font-weight: 700;
+}
+
+@media (max-width: 600px) {
+  .search-results-section .search-result-card > img,
+  .search-results-section .search-result-card .search-result-image,
+  .search-results-section .search-result-card .search-result-image-placeholder {
+    height: 205px;
+    min-height: 205px;
+    max-height: 205px;
+    flex-basis: 205px;
+  }
+
+  .search-results-section .search-result-content {
+    padding: 20px;
+  }
+
+  .search-results-section .search-result-content h3 {
+    font-size: 24px;
+  }
+
+  .search-results-section .search-result-details p {
+    font-size: 13px;
+  }
+}

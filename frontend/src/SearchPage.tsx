@@ -48,27 +48,38 @@ interface DogMatch {
 }
 
 function displayDogName(name?: string | null): string {
-  const cleanedName = name?.trim()
+  const cleanedName = String(name ?? '').trim()
+  const normalizedName = cleanedName.toLowerCase()
 
-  if (!cleanedName || cleanedName.toLowerCase() === 'no') {
-    return 'Unknown'
-  }
+  const unknownNames = [
+    '',
+    'no',
+    'no name',
+    'unknown',
+    'unknown dog',
+    'none',
+    'null',
+    'n/a',
+    'na',
+    '-',
+  ]
 
-  return cleanedName
+  return unknownNames.includes(normalizedName) ? 'Unknown' : cleanedName
 }
 
-function getImageUrl(imagePath?: string | null) {
+function getImageUrl(imagePath?: string | null): string {
   if (!imagePath) return ''
 
   const filename = imagePath.replace(/\\/g, '/').split('/').pop()
   return `${API_URL}/report-images/${encodeURIComponent(filename || '')}`
 }
 
-function getTodayLocalDate() {
+function getTodayLocalDate(): string {
   const today = new Date()
   const year = today.getFullYear()
   const month = String(today.getMonth() + 1).padStart(2, '0')
   const day = String(today.getDate()).padStart(2, '0')
+
   return `${year}-${month}-${day}`
 }
 
@@ -91,7 +102,9 @@ function SearchPage() {
     event.preventDefault()
 
     if (!photo) {
-      setError('Please upload a photograph of the dog. A photograph is required for AI matching.')
+      setError(
+        'Please upload a photograph of the dog. A photograph is required for AI matching.'
+      )
       return
     }
 
@@ -124,7 +137,9 @@ function SearchPage() {
       const data = await response.json()
 
       if (!response.ok) {
-        throw new Error(data.detail || 'Unable to search for potential dog matches.')
+        throw new Error(
+          data.detail || 'Unable to search for potential dog matches.'
+        )
       }
 
       setMatches(Array.isArray(data.matches) ? data.matches : [])
@@ -190,7 +205,9 @@ function SearchPage() {
                 <select
                   id="dogStatus"
                   value={status}
-                  onChange={(event) => setStatus(event.target.value as 'lost' | 'found')}
+                  onChange={(event) =>
+                    setStatus(event.target.value as 'lost' | 'found')
+                  }
                   required
                 >
                   <option value="lost">Lost</option>
@@ -252,7 +269,9 @@ function SearchPage() {
               </div>
 
               <div className="search-field">
-                <label htmlFor="numberOfMatches">Number of Potential Matches</label>
+                <label htmlFor="numberOfMatches">
+                  Number of Potential Matches
+                </label>
                 <select
                   id="numberOfMatches"
                   value={numberOfMatches}
@@ -272,10 +291,14 @@ function SearchPage() {
                 id="dogPhoto"
                 type="file"
                 accept="image/jpeg,image/png,image/jpg"
-                onChange={(event) => setPhoto(event.target.files?.[0] || null)}
+                onChange={(event) =>
+                  setPhoto(event.target.files?.[0] || null)
+                }
                 required
               />
-              {photo && <p className="search-photo-name">Selected: {photo.name}</p>}
+              {photo && (
+                <p className="search-photo-name">Selected: {photo.name}</p>
+              )}
             </div>
 
             <button
@@ -292,7 +315,9 @@ function SearchPage() {
 
         {loading && (
           <section className="search-results-section">
-            <div className="search-no-results">Analyzing photograph and searching existing dog reports...</div>
+            <div className="search-no-results">
+              Analyzing photograph and searching existing dog reports...
+            </div>
           </section>
         )}
 
@@ -307,15 +332,24 @@ function SearchPage() {
             {matches.length === 0 ? (
               <div className="search-no-results">
                 <h3>No potential matches found</h3>
-                <p>Try searching again with another photograph or different details.</p>
+                <p>
+                  Try searching again with another photograph or different
+                  details.
+                </p>
               </div>
             ) : (
               <div className="search-results-grid">
                 {matches.map((match, index) => {
-                  const similarity = Number(match.similarity_percentage ?? (Number(match.similarity) * 100))
+                  const similarity = Number(
+                    match.similarity_percentage ??
+                      Number(match.similarity) * 100
+                  )
 
                   return (
-                    <article className="search-result-card" key={`${match.report_id}-${index}`}>
+                    <article
+                      className="search-result-card"
+                      key={`${match.report_id}-${index}`}
+                    >
                       <div className="search-result-image-placeholder">
                         {match.image_path ? (
                           <img
@@ -330,20 +364,44 @@ function SearchPage() {
 
                       <div className="search-result-content">
                         <span className="search-result-rank">
-                          MATCH #{match.rank || index + 1} · {match.status.toUpperCase()} REPORT
+                          MATCH #{match.rank || index + 1} ·{' '}
+                          {match.status.toUpperCase()} REPORT
                         </span>
+
                         <h3>{displayDogName(match.dog_name)}</h3>
 
                         <div className="search-result-details">
-                          <p><strong>District:</strong> {match.district || 'Unknown'}</p>
-                          {match.date && <p><strong>Date:</strong> {match.date}</p>}
-                          {match.size && <p><strong>Size:</strong> {match.size}</p>}
-                          {match.color && <p><strong>Colour:</strong> {match.color}</p>}
+                          <p>
+                            <strong>District:</strong>{' '}
+                            {match.district || 'Unknown'}
+                          </p>
+                          {match.date && (
+                            <p>
+                              <strong>Date:</strong> {match.date}
+                            </p>
+                          )}
+                          {match.size && (
+                            <p>
+                              <strong>Size:</strong> {match.size}
+                            </p>
+                          )}
+                          {match.color && (
+                            <p>
+                              <strong>Colour:</strong> {match.color}
+                            </p>
+                          )}
                           <p>
                             <strong>Image similarity:</strong>{' '}
-                            {Number.isFinite(similarity) ? `${similarity.toFixed(2)}%` : 'Unavailable'}
+                            {Number.isFinite(similarity)
+                              ? `${similarity.toFixed(2)}%`
+                              : 'Unavailable'}
                           </p>
-                          {match.same_district && <p><strong>District:</strong> Same district as your search</p>}
+                          {match.same_district && (
+                            <p>
+                              <strong>District:</strong> Same district as your
+                              search
+                            </p>
+                          )}
                         </div>
                       </div>
                     </article>

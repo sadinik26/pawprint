@@ -48,3 +48,9 @@ data/report_images/
 # Frontend dependencies and build output
 frontend/node_modules/
 frontend/dist/
+
+# Local database
+data/*.db
+
+# Uploaded dog report images
+data/report_images/

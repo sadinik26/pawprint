@@ -2,12 +2,12 @@
 import { Routes, Route, Link } from 'react-router-dom'
 import ReportPage from './ReportPage'
 import SearchPage from './SearchPage'
+import MapPage from './MapPage'
 import './App.css'
 
 function HomePage() {
   return (
     <div className="app">
-
       {/* Navigation */}
       <header className="navbar">
         <Link to="/" className="brand">
@@ -17,6 +17,7 @@ function HomePage() {
 
         <nav className="nav-links">
           <Link to="/">Home</Link>
+          <Link to="/map">District Map</Link>
           <a href="#how-it-works">How It Works</a>
           <a href="#about">About</a>
         </nav>
@@ -33,11 +34,9 @@ function HomePage() {
       </header>
 
       <main>
-
         {/* Hero */}
         <section className="hero" id="home">
           <div className="hero-content">
-
             <span className="eyebrow">
               <span className="eyebrow-dot"></span>
               REUNITING PAWS WITH THEIR FAMILIES
@@ -105,7 +104,6 @@ function HomePage() {
           </div>
 
           <div className="action-cards">
-
             <article className="action-card lost-card">
               <div className="card-icon">🔎</div>
 
@@ -141,7 +139,6 @@ function HomePage() {
                 Submit a report <span>→</span>
               </Link>
             </article>
-
           </div>
         </section>
 
@@ -160,7 +157,6 @@ function HomePage() {
           </div>
 
           <div className="steps">
-
             <div className="step">
               <div className="step-number">01</div>
               <div className="step-icon">📷</div>
@@ -181,7 +177,6 @@ function HomePage() {
               <h3>Find a Match</h3>
               <p>Review matching reports and contact the reporter.</p>
             </div>
-
           </div>
         </section>
 
@@ -203,7 +198,6 @@ function HomePage() {
 
           <div className="about-decoration">🐾</div>
         </section>
-
       </main>
 
       {/* Footer */}
@@ -217,7 +211,6 @@ function HomePage() {
 
         <span>© 2026 Pawprint</span>
       </footer>
-
     </div>
   )
 }
@@ -230,6 +223,8 @@ function App() {
       <Route path="/report" element={<ReportPage />} />
 
       <Route path="/search" element={<SearchPage />} />
+
+      <Route path="/map" element={<MapPage />} />
     </Routes>
   )
 }

@@ -5,7 +5,7 @@ from io import BytesIO
 from pathlib import Path
 import math
 import uuid
-
+from fastapi.middleware.cors import CORSMiddleware
 import numpy as np
 
 from fastapi import (
@@ -688,6 +688,59 @@ async def list_reports(
             for report in reports
         ],
     }
+
+
+
+
+# --------------------------------------------------
+# District report summary for the map
+# --------------------------------------------------
+
+@app.get("/district-summary")
+async def get_district_summary():
+    """
+    Return lost/found report counts for each Sri Lankan district.
+    This endpoint returns aggregate counts only, not report details.
+    """
+
+    district_counts = {
+        district: {
+            "district": district,
+            "lost": 0,
+            "found": 0,
+            "total": 0,
+        }
+        for district in SRI_LANKAN_DISTRICTS
+    }
+
+    lost_reports = get_reports("lost")
+    found_reports = get_reports("found")
+
+    for report in lost_reports:
+        district = report.get("district")
+
+        if district in district_counts:
+            district_counts[district]["lost"] += 1
+            district_counts[district]["total"] += 1
+
+    for report in found_reports:
+        district = report.get("district")
+
+        if district in district_counts:
+            district_counts[district]["found"] += 1
+            district_counts[district]["total"] += 1
+
+    return {
+        "status": "success",
+        "total_lost": len(lost_reports),
+        "total_found": len(found_reports),
+        "total_reports": len(lost_reports) + len(found_reports),
+        "districts": sorted(
+            district_counts.values(),
+            key=lambda item: item["district"],
+        ),
+    }
+
 
 
 # --------------------------------------------------

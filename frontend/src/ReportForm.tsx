@@ -1,4 +1,3 @@
-
 import { useState, type FormEvent } from 'react'
 
 interface PotentialMatch {
@@ -37,8 +36,28 @@ const districts = [
   'Puttalam',
   'Ratnapura',
   'Trincomalee',
-  'Vavuniya'
+  'Vavuniya',
 ]
+
+function displayDogName(name?: string | null): string {
+  const cleanedName = String(name ?? '').trim()
+  const normalizedName = cleanedName.toLowerCase()
+
+  const unknownNames = [
+    '',
+    'no',
+    'no name',
+    'unknown',
+    'unknown dog',
+    'none',
+    'null',
+    'n/a',
+    'na',
+    '-',
+  ]
+
+  return unknownNames.includes(normalizedName) ? 'Unknown' : cleanedName
+}
 
 function ReportForm() {
   const [loading, setLoading] = useState(false)
@@ -58,12 +77,7 @@ function ReportForm() {
     const form = event.currentTarget
     const formData = new FormData(form)
 
-    // Remove optional empty fields.
-    const optionalFields = [
-      'dog_name',
-      'size',
-      'color'
-    ]
+    const optionalFields = ['dog_name', 'size', 'color']
 
     optionalFields.forEach((field) => {
       if (!formData.get(field)?.toString().trim()) {
@@ -76,7 +90,7 @@ function ReportForm() {
 
       const response = await fetch('http://127.0.0.1:8000/report', {
         method: 'POST',
-        body: formData
+        body: formData,
       })
 
       const result = await response.json()
@@ -98,7 +112,6 @@ function ReportForm() {
       )
 
       form.reset()
-
     } catch (error) {
       setSuccess(false)
 
@@ -107,7 +120,6 @@ function ReportForm() {
           ? error.message
           : 'Something went wrong. Please try again.'
       )
-
     } finally {
       setLoading(false)
     }
@@ -115,18 +127,16 @@ function ReportForm() {
 
   return (
     <section className="report-section" id="report-form">
-
       <div className="report-heading">
         <span className="section-eyebrow">HELP A DOG FIND HOME</span>
         <h2>Submit a Dog Report</h2>
         <p>
-          Share a few details and a photograph. Your report could help
-          reunite a dog with its family.
+          Share a few details and a photograph. Your report could help reunite a
+          dog with its family.
         </p>
       </div>
 
       <form className="report-form" onSubmit={handleSubmit}>
-
         <div className="form-group">
           <label htmlFor="file">Dog Photograph *</label>
           <input
@@ -140,7 +150,6 @@ function ReportForm() {
         </div>
 
         <div className="form-row">
-
           <div className="form-group">
             <label htmlFor="dog_name">Dog's Name</label>
             <input
@@ -153,12 +162,7 @@ function ReportForm() {
 
           <div className="form-group">
             <label htmlFor="status">Report Type *</label>
-            <select
-              id="status"
-              name="status"
-              required
-              defaultValue=""
-            >
+            <select id="status" name="status" required defaultValue="">
               <option value="" disabled>
                 Select report type
               </option>
@@ -166,19 +170,12 @@ function ReportForm() {
               <option value="found">Found Dog</option>
             </select>
           </div>
-
         </div>
 
         <div className="form-row">
-
           <div className="form-group">
             <label htmlFor="date">Date *</label>
-            <input
-              id="date"
-              name="date"
-              type="date"
-              required
-            />
+            <input id="date" name="date" type="date" required />
           </div>
 
           <div className="form-group">
@@ -190,7 +187,6 @@ function ReportForm() {
               <option value="large">Large</option>
             </select>
           </div>
-
         </div>
 
         <div className="form-group">
@@ -205,23 +201,15 @@ function ReportForm() {
 
         <div className="form-divider">
           <h3>Location Details</h3>
-          <p>
-            Select the district where the dog was lost or found.
-          </p>
+          <p>Select the district where the dog was lost or found.</p>
         </div>
 
         <div className="form-group">
           <label htmlFor="district">District *</label>
-          <select
-            id="district"
-            name="district"
-            required
-            defaultValue=""
-          >
+          <select id="district" name="district" required defaultValue="">
             <option value="" disabled>
               Select district
             </option>
-
             {districts.map((district) => (
               <option key={district} value={district}>
                 {district}
@@ -260,9 +248,7 @@ function ReportForm() {
         {message && (
           <div className={`form-message ${success ? 'success' : 'error'}`}>
             {message}
-            {success && reportId !== null && (
-              <p>Report ID: {reportId}</p>
-            )}
+            {success && reportId !== null && <p>Report ID: {reportId}</p>}
           </div>
         )}
 
@@ -277,7 +263,6 @@ function ReportForm() {
         <p className="form-disclaimer">
           Please make sure the information you provide is accurate.
         </p>
-
       </form>
 
       {success && (
@@ -286,8 +271,8 @@ function ReportForm() {
 
           {matches.length === 0 ? (
             <p>
-              No potential matches were found yet. Your report has been
-              saved, and it can be compared with future reports.
+              No potential matches were found yet. Your report has been saved,
+              and it can be compared with future reports.
             </p>
           ) : (
             <>
@@ -301,9 +286,7 @@ function ReportForm() {
                   className="potential-match-card"
                   key={match.report_id}
                 >
-                  <h4>
-                    {match.dog_name || 'Unknown Dog'}
-                  </h4>
+                  <h4>{displayDogName(match.dog_name)}</h4>
 
                   <p>Report ID: {match.report_id}</p>
                   <p>District: {match.district || 'Unknown'}</p>
@@ -324,7 +307,6 @@ function ReportForm() {
           )}
         </div>
       )}
-
     </section>
   )
 }
